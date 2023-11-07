@@ -7,6 +7,11 @@ Udacity Course.
 uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
+### Tailwind
+```
+npm run tw:watch
+```
+
 ### Docker
 ```
 docker compose up -d
