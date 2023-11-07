@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+    font-family: 'Tajawal', sans-serif;
+}
+
+@layer components {
+    .container {
+        @apply max-w-[1400px] mx-auto px-4;
+    }
+    .custom-input {
+        @apply outline-none border-none bg-base-200 rounded-md py-2 px-4;
+    }
+}
