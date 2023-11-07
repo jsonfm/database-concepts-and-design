@@ -2,6 +2,11 @@
 Udacity Course.
 
 
+### Development
+```
+uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+```
+
 ### Docker
 ```
 docker compose up -d
