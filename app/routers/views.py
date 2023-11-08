@@ -10,3 +10,13 @@ router = APIRouter()
 @router.get("/", response_class=HTMLResponse)
 async def home(request: Request):
     return render_template(request, "pages/index.html")
+
+
+@router.get("/login", response_class=HTMLResponse)
+def login(request: Request):
+    return render_template(request, "pages/login/index.html")
+
+
+@router.get("/signup", response_class=HTMLResponse)
+def signup(request: Request):
+    return render_template(request, "pages/login/signup.html")
