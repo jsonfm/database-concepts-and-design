@@ -1,3 +1,7 @@
+<img
+    src="./docs/schemas/gto.png"
+/>
+
 ### Database Concepts and Design
 Udacity Course.
 
