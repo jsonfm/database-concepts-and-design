@@ -5,8 +5,9 @@ CREATE TABLE IF NOT EXISTS users (
     email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     deleted BOOLEAN DEFAULT false,
+    active BOOLEAN DEFAULT false,
     PRIMARY KEY (id),
-    PRIMARY KEY (email)
+    INDEX (email)
 );
 
 CREATE TABLE IF NOT EXISTS profiles (
@@ -21,11 +22,12 @@ CREATE TABLE IF NOT EXISTS profiles (
     hometown VARCHAR(255),
     user_id INT NOT NULL,
     deleted BOOLEAN DEFAULT false,
+    active BOOLEAN DEFAULT false,
     PRIMARY KEY (id),
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
-CREATE TYPE friendship_request_status AS ENUM ('ACCEPT', 'REJECT');
+CREATE TYPE friendship_request_status AS ENUM ('ACCEPTED', 'REJECTED');
 
 
 CREATE TABLE IF NOT EXISTS friendships_requests (
@@ -34,13 +36,14 @@ CREATE TABLE IF NOT EXISTS friendships_requests (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     user_one_id INT NOT NULL,
     user_two_id INT NOT NULL,
-    status friendship_request_status,
+    status VARCHAR(10),
     deleted BOOLEAN DEFAULT false,
+    active BOOLEAN DEFAULT false,
     PRIMARY KEY (id),
     FOREIGN KEY (user_one_id) REFERENCES users(id),
     FOREIGN KEY (user_two_id) REFERENCES users(id),
-    UNIQUE KEY unique_friendship_one_to_two (user_one_id, user_two_id),
-    UNIQUE KEY unique_friendship_tow_to_one (user_two_id, user_one_id)
+    UNIQUE KEY unique_friendship_request_one_to_two (user_one_id, user_two_id),
+    UNIQUE KEY unique_friendship_request_two_to_one (user_two_id, user_one_id)
 );
 
 
@@ -51,14 +54,14 @@ CREATE TABLE IF NOT EXISTS friendships (
     user_one_id INT NOT NULL,
     user_two_id INT NOT NULL,
     deleted BOOLEAN DEFAULT false,
+    active BOOLEAN DEFAULT false,
     PRIMARY KEY (id),
     FOREIGN KEY (user_one_id) REFERENCES users(id),
     FOREIGN KEY (user_two_id) REFERENCES users(id),
     UNIQUE KEY unique_friendship_one_to_two (user_one_id, user_two_id),
-    UNIQUE KEY unique_friendship_tow_to_one (user_two_id, user_one_id)
+    UNIQUE KEY unique_friendship_two_to_one (user_two_id, user_one_id)
 );
 
-CREATE TYPE school_type AS ENUM ('UNIVERSITY', 'INSTITUTE', 'PLATFORM', 'OTHER');
 
 CREATE TABLE IF NOT EXISTS schools (
     id INT AUTO_INCREMENT NOT NULL,
@@ -66,8 +69,9 @@ CREATE TABLE IF NOT EXISTS schools (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     name VARCHAR(255),
     country VARCHAR(45),
-    type school_type,
+    type VARCHAR(10),
     deleted BOOLEAN DEFAULT false,
+    active BOOLEAN DEFAULT false,
     PRIMARY KEY(id)
 );
 
@@ -80,6 +84,7 @@ CREATE TABLE IF NOT EXISTS educations (
     end_year INT CHECK (end_year > 1900),
     user_id INT,
     deleted BOOLEAN DEFAULT false,
+    active BOOLEAN DEFAULT false,
     PRIMARY KEY (id),
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
@@ -90,6 +95,7 @@ CREATE TABLE IF NOT EXISTS employers (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     name VARCHAR(255),
     deleted BOOLEAN DEFAULT false,
+    active BOOLEAN DEFAULT false,
     PRIMARY KEY (id)
 );
 
@@ -101,6 +107,7 @@ CREATE TABLE IF NOT EXISTS professional_positions (
     user_id INT NOT NULL,
     job_title VARCHAR(255),
     deleted BOOLEAN DEFAULT false,
+    active BOOLEAN DEFAULT false,
     PRIMARY KEY(id),
     FOREIGN KEY (employer_id) REFERENCES employers(id)
 );

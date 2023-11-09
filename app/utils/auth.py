@@ -11,7 +11,7 @@ from passlib.hash import pbkdf2_sha256
 from app.config import config
 
 SECRET_KEY = config.SECRET_KEY
-ALGORITHM = "SHA256"
+ALGORITHM = "HS256"
 
 #
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")

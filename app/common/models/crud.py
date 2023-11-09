@@ -1,8 +1,9 @@
-from app.db import db
+from app.db import Database, db
 
 
 class CRUD:
     """Common CRUD operations."""
+    db: Database = db
 
     @classmethod
     def get_items(cls, limit: int = 20, offset: int = 0):

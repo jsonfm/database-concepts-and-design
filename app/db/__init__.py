@@ -4,18 +4,20 @@ from typing import Callable
 
 # SQLAlchemy
 from sqlalchemy import create_engine, orm
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import DeclarativeBase, Session
 from sqlalchemy.pool import StaticPool
 
 #
+from app.config import config
+#
 from app.logger import logger
-
 #
 from app.utils.metaclasses import SingletonMeta
 
+
 #
-Base = declarative_base()
+class Base(DeclarativeBase):
+    pass
 
 
 class Database(metaclass=SingletonMeta):
@@ -50,8 +52,11 @@ class Database(metaclass=SingletonMeta):
             session.close()
 
 
-dbdir = os.path.join(os.path.abspath(os.path.dirname(__file__)))
-db_url = "sqlite:///" + os.path.join(dbdir, "db.sqlite3")
+# dbdir = os.path.join(os.path.abspath(os.path.dirname(__file__)))
+# db_url = "sqlite:///" + os.path.join(dbdir, "db.sqlite3")
+db_url = config.DB_URL
+db_url = db_url.replace("mysql", "mysql+pymysql")
 
 
 db = Database(db_url=db_url)
+db.create_all()

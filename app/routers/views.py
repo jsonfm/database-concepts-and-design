@@ -4,7 +4,7 @@ from fastapi.responses import HTMLResponse
 # utils
 from app.utils.templates import render_template, templates
 
-router = APIRouter()
+router = APIRouter(include_in_schema=False)
 
 
 @router.get("/", response_class=HTMLResponse)

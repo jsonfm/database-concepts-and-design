@@ -12,7 +12,7 @@ VALUES
     (6, 1);
 
 
-INSERT INTO friendship_requests 
+INSERT INTO friendships_requests 
 (user_one_id, user_two_id, status)
 VALUES
 (1, 2, 'ACCEPTED'),
