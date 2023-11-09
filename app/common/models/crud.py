@@ -1,15 +1,33 @@
+from typing import Any
+
+#
+from pydantic import BaseModel
+
+#
 from app.db import Database, db
 
 
 class CRUD:
     """Common CRUD operations."""
     db: Database = db
+    schema: BaseModel = None
+    validate: bool = True
+
+    @classmethod
+    def _validate(cls, item):
+        if cls.validate and cls.schema is not None and item is not None:
+            if isinstance(item, list):
+                item = [cls.schema.model_validate(i) for i in item]
+            else:
+                item = cls.schema.model_validate(item)
+        return item
 
     @classmethod
     def get_items(cls, limit: int = 20, offset: int = 0):
         """Returns a list of items"""
         with db.session() as session:
             result = session.query(cls).limit(limit).offset(offset).all()
+            result = cls._validate(result)
             return result
 
     @classmethod
@@ -17,6 +35,7 @@ class CRUD:
         """Returns an item given its ID."""
         with db.session() as session:
             result = session.query(cls).filter_by(id=item_id).first()
+            result = self._validate(result)
             return result
 
     @classmethod
@@ -30,6 +49,7 @@ class CRUD:
                         setattr(item, key, value)
                 session.commit()
                 session.refresh(item)
+                item = self._validate(item)
                 return item
 
     @classmethod
@@ -53,6 +73,7 @@ class CRUD:
             instance = cls(**data)
             session.add(instance)
             session.commit()
+            instance = cls._validate(instance)
             return instance
 
     def create_instance(self):
