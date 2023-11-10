@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, status
 
 #
-from app.routers.users import User as UserRepo
+from app.routers.users import User as UserRepository
 # schemas
 from app.schemas.auth.forms import LoginForm, SignupForm
 from app.schemas.users import User
@@ -13,7 +13,7 @@ router = APIRouter(prefix="/auth", tags=["Auth"])
 
 @router.post("/login")
 def login(form: LoginForm):
-    user = UserRepo.get_by_email(form.email)
+    user = UserRepository.get_by_email(form.email)
 
     if user is None:
         raise HTTPException(status.HTTP_404_NOT_FOUND, detail="user doesn't exist")
@@ -29,5 +29,5 @@ def login(form: LoginForm):
 @router.post("/signup")
 def signup(form: SignupForm):
     data = form.dict() # validated form with hashed password
-    user = UserRepo.create(data)
+    user = UserRepository.create(data)
     return {"message": "user registered!"}
