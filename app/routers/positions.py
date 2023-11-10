@@ -2,10 +2,9 @@ from fastapi import APIRouter
 
 #
 from app.models.positions import ProfessionalPosition
-
 # forms
-from app.schemas.positions.forms import CreateProfessionalPositionForm, UpdateProfessionalPositionForm
-
+from app.schemas.positions.forms import (CreateProfessionalPositionForm,
+                                         UpdateProfessionalPositionForm)
 
 router = APIRouter(prefix="/professional-positions", tags=["Professional Positions"])
 
@@ -31,8 +30,10 @@ def create_professional_position(form: CreateProfessionalPositionForm):
 
 @router.put("/")
 def update_professional_position(form: UpdateProfessionalPositionForm):
-    item = ProfessionalPosition.update(form.dict())
-    return item
+    # item = ProfessionalPosition.update(form.dict())
+    # return item
+    print("form: ", form.dict())
+    return {}
 
 @router.delete("/{position_id}")
 def delete_professional_position(position_id):

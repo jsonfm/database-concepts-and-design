@@ -15,8 +15,8 @@ def get_educations(limit: int = 50, offset: int = 0):
     return items
 
 @router.get("/user/{user_id}")
-def get_educations_by_user(user_id: int):
-    items = Education.get_by_user_id(user_id)
+def get_educations_by_user(user_id: int, limit: int = 50, offset: int = 0):
+    items = Education.get_by_user_id(user_id, limit, offset)
     return items
 
 @router.get("/{education_id}")
