@@ -35,7 +35,7 @@ class CRUD:
         """Returns an item given its ID."""
         with db.session() as session:
             result = session.query(cls).filter_by(id=item_id).first()
-            result = self._validate(result)
+            result = cls._validate(result)
             return result
 
     @classmethod
@@ -49,7 +49,7 @@ class CRUD:
                         setattr(item, key, value)
                 session.commit()
                 session.refresh(item)
-                item = self._validate(item)
+                item = cls._validate(item)
                 return item
 
     @classmethod

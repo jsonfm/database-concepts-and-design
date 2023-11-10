@@ -14,6 +14,7 @@ class User(CustomBaseModel):
     email: Mapped[str] = mapped_column(String(255), unique=True, nullable=False, index=True)
     password: Mapped[str] = mapped_column(String(255), nullable=False)
     educations: Mapped[List["Education"]] = relationship()
+    professional_positions: Mapped[List["ProfessionalPosition"]] = relationship()
 
     @classmethod
     def get_by_email(cls, email: str):
